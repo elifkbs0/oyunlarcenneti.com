@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Controller body -->
+  <path d="M6 11 C3 11 2 13 2 15 L2 20 C2 24 5 26 8 26 L10 26 L12 22 L20 22 L22 26 L24 26 C27 26 30 24 30 20 L30 15 C30 13 29 11 26 11 Z" fill="#f59e0b"/>
+  <!-- Left bumper grip -->
+  <path d="M6 11 C4 11 2 12 2 14 L6 14 C7 14 8 13 8 11 Z" fill="#d97706"/>
+  <!-- Right bumper grip -->
+  <path d="M26 11 C28 11 30 12 30 14 L26 14 C25 14 24 13 24 11 Z" fill="#d97706"/>
+  <!-- D-pad vertical -->
+  <rect x="9" y="14" width="2.5" height="6" rx="1" fill="#1a1a2e"/>
+  <!-- D-pad horizontal -->
+  <rect x="7" y="16" width="6.5" height="2.5" rx="1" fill="#1a1a2e"/>
+  <!-- Button A (right) -->
+  <circle cx="23" cy="16.5" r="2" fill="#1a1a2e"/>
+  <!-- Button B (bottom) -->
+  <circle cx="20.5" cy="19" r="2" fill="#1a1a2e"/>
+  <!-- Button X (top) -->
+  <circle cx="20.5" cy="14" r="2" fill="#1a1a2e"/>
+  <!-- Button Y (left) -->
+  <circle cx="18" cy="16.5" r="2" fill="#1a1a2e"/>
+  <!-- Center button -->
+  <circle cx="15.5" cy="16.5" r="1.5" fill="#d97706"/>
+</svg>
