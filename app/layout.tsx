@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header";
 
@@ -20,6 +21,12 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <body className="min-h-screen flex flex-col">
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8340130505270753"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <Header />
         <main className="flex-1">{children}</main>
         <footer className="border-t border-[#2a2a3e] mt-16 py-8">
