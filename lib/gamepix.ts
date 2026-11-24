@@ -40,6 +40,7 @@ export const CATEGORY_LABELS: Record<string, string> = {
   cats: "Kedi",
   cooking: "Yemek",
   dinosaur: "Dinozor",
+  "dress-up": "Kız Giydirme",
   driving: "Sürüş",
   farming: "Çiftlik",
   girls: "Kız",
@@ -66,6 +67,14 @@ export const FEATURED_CATEGORIES = [
   "shooting",
   "strategy",
   "arcade",
+  "girls",
+  "dress-up",
+  "casual",
+  "zombie",
+  "io",
+  "car",
+  "cooking",
+  "multiplayer",
 ];
 
 export const CATEGORY_EMOJI: Record<string, string> = {
@@ -77,6 +86,14 @@ export const CATEGORY_EMOJI: Record<string, string> = {
   shooting: "🎯",
   strategy: "♟️",
   arcade: "👾",
+  girls: "👗",
+  "dress-up": "💃",
+  casual: "🎪",
+  zombie: "🧟",
+  io: "🌐",
+  car: "🚗",
+  cooking: "🍳",
+  multiplayer: "🤝",
 };
 
 export function embedUrl(namespace: string): string {

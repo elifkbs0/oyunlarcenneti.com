@@ -10,17 +10,29 @@ import Link from "next/link";
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const fetches = await Promise.all([
-    fetchGames({ pagination: 96 }),
+  // Fetch everything flat: 8 popular pages + 1 new + 16 category feeds = 25 requests
+  const POPULAR_PAGES = 8;
+  const results = await Promise.all([
+    ...Array.from({ length: POPULAR_PAGES }, (_, i) =>
+      fetchGames({ pagination: 96, page: i + 1 })
+    ),
     fetchGames({ pagination: 48, order: "pubdate" }),
     ...FEATURED_CATEGORIES.map((cat) =>
-      fetchGames({ category: cat, pagination: 12 })
+      fetchGames({ category: cat, pagination: 24 })
     ),
   ]);
 
-  const trending = fetches[0];
-  const newGames = fetches[1];
-  const categoryFeeds = fetches.slice(2);
+  // Deduplicate popular games by id across all pages
+  const popularGames = Array.from(
+    new Map(
+      results
+        .slice(0, POPULAR_PAGES)
+        .flatMap((f) => f.items)
+        .map((g) => [g.id, g])
+    ).values()
+  );
+  const newGames = results[POPULAR_PAGES];
+  const categoryFeeds = results.slice(POPULAR_PAGES + 1);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
@@ -55,9 +67,14 @@ export default async function HomePage() {
 
       {/* Trending */}
       <section>
-        <h2 className="text-lg font-semibold text-white mb-4">🔥 Popüler Oyunlar</h2>
+        <h2 className="text-lg font-semibold text-white mb-4">
+          🔥 Popüler Oyunlar
+          <span className="ml-2 text-sm font-normal text-gray-500">
+            ({popularGames.length} oyun)
+          </span>
+        </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-          {trending.items.map((game, i) => (
+          {popularGames.map((game, i) => (
             <GameCard key={game.id} game={game} priority={i < 6} />
           ))}
         </div>
