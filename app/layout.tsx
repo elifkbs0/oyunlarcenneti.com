@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: "%s | Oyunlar Cenneti",
   },
   description:
-    "Binlerce ücretsiz HTML5 oyun oyna! Aksiyon, bulmaca, spor, yarış, macera ve daha fazlası. Hiç indirme yok, hemen oyna!",
+    "Binlerce ücretsiz oyun oyna! Aksiyon, bulmaca, spor, yarış, macera ve daha fazlası. Hiç indirme yok, hemen oyna!",
   metadataBase: new URL("https://oyunlarcenneti.com"),
 };
 

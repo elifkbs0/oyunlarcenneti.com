@@ -11,8 +11,8 @@ export const revalidate = 3600;
 
 export default async function HomePage() {
   const [trending, newGames] = await Promise.all([
-    fetchGames({ pagination: 24 }),
-    fetchGames({ pagination: 12, order: "pubdate" }),
+    fetchGames({ pagination: 96 }),
+    fetchGames({ pagination: 48, order: "pubdate" }),
   ]);
 
   return (
@@ -23,7 +23,7 @@ export default async function HomePage() {
           Ücretsiz Online Oyunlar
         </h1>
         <p className="text-gray-400 text-lg">
-          Binlerce HTML5 oyun — indirme yok, kayıt yok, hemen oyna!
+          Binlerce oyun — indirme yok, kayıt yok, hemen oyna!
         </p>
       </section>
 
