@@ -10,10 +10,17 @@ import Link from "next/link";
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const [trending, newGames] = await Promise.all([
+  const fetches = await Promise.all([
     fetchGames({ pagination: 96 }),
     fetchGames({ pagination: 48, order: "pubdate" }),
+    ...FEATURED_CATEGORIES.map((cat) =>
+      fetchGames({ category: cat, pagination: 12 })
+    ),
   ]);
+
+  const trending = fetches[0];
+  const newGames = fetches[1];
+  const categoryFeeds = fetches.slice(2);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
@@ -48,9 +55,7 @@ export default async function HomePage() {
 
       {/* Trending */}
       <section>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-white">🔥 Popüler Oyunlar</h2>
-        </div>
+        <h2 className="text-lg font-semibold text-white mb-4">🔥 Popüler Oyunlar</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
           {trending.items.map((game, i) => (
             <GameCard key={game.id} game={game} priority={i < 6} />
@@ -69,6 +74,32 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Category sections */}
+      {FEATURED_CATEGORIES.map((cat, i) => {
+        const feed = categoryFeeds[i];
+        if (!feed?.items?.length) return null;
+        return (
+          <section key={cat}>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-white">
+                {CATEGORY_EMOJI[cat] ?? "🎮"} {categoryLabel(cat)}
+              </h2>
+              <Link
+                href={`/kategori/${cat}`}
+                className="text-sm text-amber-500 hover:text-amber-400 transition-colors"
+              >
+                Tümünü gör →
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+              {feed.items.map((game) => (
+                <GameCard key={game.id} game={game} />
+              ))}
+            </div>
+          </section>
+        );
+      })}
     </div>
   );
 }
