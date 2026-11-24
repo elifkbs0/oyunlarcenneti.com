@@ -27,7 +27,7 @@ export default async function HomePage() {
       {/* Hero */}
       <section>
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-          Ücretsiz Online Oyunlar
+          Ücretsiz, Reklamsız Online Oyunlar
         </h1>
         <p className="text-gray-400 text-lg">
           Binlerce oyun — indirme yok, kayıt yok, hemen oyna!
