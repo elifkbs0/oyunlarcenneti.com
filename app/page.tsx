@@ -11,16 +11,34 @@ export const revalidate = 3600;
 
 export default async function HomePage() {
   // Fetch everything flat: 8 popular pages + 1 new + 16 category feeds = 25 requests
-  const POPULAR_PAGES = 8;
-  const results = await Promise.all([
-    ...Array.from({ length: POPULAR_PAGES }, (_, i) =>
+  // Popular in two batches to avoid rate limiting: pages 1-3 first, then 4-5
+  const POPULAR_PAGES = 5;
+  const batch1 = await Promise.all([
+    ...Array.from({ length: 3 }, (_, i) =>
       fetchGames({ pagination: 96, page: i + 1 })
     ),
     fetchGames({ pagination: 48, order: "pubdate" }),
-    ...FEATURED_CATEGORIES.map((cat) =>
+    ...FEATURED_CATEGORIES.slice(0, 8).map((cat) =>
       fetchGames({ category: cat, pagination: 24 })
     ),
   ]);
+  const batch2 = await Promise.all([
+    ...Array.from({ length: 2 }, (_, i) =>
+      fetchGames({ pagination: 96, page: i + 4 })
+    ),
+    ...FEATURED_CATEGORIES.slice(8).map((cat) =>
+      fetchGames({ category: cat, pagination: 24 })
+    ),
+  ]);
+
+  // Reassemble results array: [page1..page5, new, cat1..cat16]
+  const results = [
+    ...batch1.slice(0, 3),     // popular pages 1-3
+    ...batch2.slice(0, 2),     // popular pages 4-5
+    batch1[3],                 // new games
+    ...batch1.slice(4),        // categories 1-8
+    ...batch2.slice(2),        // categories 9-16
+  ];
 
   // Deduplicate popular games by id across all pages
   const popularGames = Array.from(

@@ -130,11 +130,15 @@ export async function fetchGames(
   if (opts.order) params.set("order", opts.order);
   if (opts.category) params.set("category", opts.category);
 
-  const res = await fetch(`${FEED_BASE}?${params}`, {
-    next: { revalidate: 3600 },
-  });
-  if (!res.ok) throw new Error(`GamePix feed error: ${res.status}`);
-  return res.json();
+  try {
+    const res = await fetch(`${FEED_BASE}?${params}`, {
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return { items: [] };
+    return res.json();
+  } catch {
+    return { items: [] };
+  }
 }
 
 // Find a single game by namespace slug, searching category first if provided
